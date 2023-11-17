@@ -68,12 +68,17 @@ def get_answer_LLM(question: str, data: str, chunk_size: int = 1000) -> str:
     )
     if response.choices:
         first_choice = response.choices[0]
-        generated_text = first_choice.message  # 假设文本位于 'content' 键中
-        print("context: ",context)
-        print("response: ",response)
+
+        generated_text = first_choice.message.content
+        print("input context: ",context)
+        print("model response: ",response)
+        #role_from_result=first_choice.message.role
+        #print("role_from_result:",role_from_result)
+        # full_result = first_choice.message
+        #print("full result:",full_result)
     return generated_text
 
-#test all
+#documents for testing
 data="""
 We endow pre-trained, parametric-memory generation models with a non-parametric memory through a general-purpose fine-tuning approach which we refer to as retrieval-augmented generation (RAG). 
 We build RAG models where the parametric memory is a pre-trained seq2seq transformer, and the non-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural retriever. 
@@ -82,6 +87,10 @@ The retriever DPR (Dense Passage Retriever [26], henceforth DPR) provides latent
 We marginalize the latent documents with a top-K approximation, either on a per-output basis (assuming the same document is responsible for all tokens) or a per-token basis (where different documents are responsible for different tokens). 
 Like T5 [51] or BART, RAG can be fine-tuned on any seq2seq task, whereby both the generator and retriever are jointly learned.
 """
+query = "what is RAG"
+question = "which problem can RAG solve?"
+#test all methods
+'''
 print("data: ",data)
 #成功验证get_data_chunks
 chunks = get_data_chunks(data,300)#max averages of char.
@@ -92,23 +101,16 @@ index = create_knowledge_hub(chunks)
 print("index",index)
 
 #验证retrieve_relevant_chunks
-query = "what is RAG"
+
 relevant_chunks = retrieve_relevant_chunks(query, index, chunks, k=2)
 print("relevant_chunks: ",relevant_chunks)
-'''for chunk in relevant_chunks:
-    print(chunk)
-'''
+
 # 测试get_answer_LLM（确保已正确设置data变量）成功
-question = "which problem can RAG solve?"
-result = get_answer_LLM(question, data, 5)
-print("result:", result['result'])
 
-#mistral 7b
-#zephyr 7b
-#entities , mach entities, push them into the query
+print("question",question)
+print("query",query)
+'''
 
-#rdf lib, turtle file
-#Play with chunking with bigger context size, probably texts from a document (i.e, pdf).
-#Play with the knowledge graph which will be uploaded later today (i.e, in the evening). Try to find the entities and relation.
-#Try to find if the information of the entities are available
-#BLEU, ROGUE, METEOR (these are the evaluation metrics used in literature)
+#test the encapsulated method
+result = get_answer_LLM(question, data, 300)
+print("result:", result)#['result']
