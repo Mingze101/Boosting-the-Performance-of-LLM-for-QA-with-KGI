@@ -4,7 +4,4 @@ Task 2 members: Haoran Yang, Mingze Li, Zhaotai Liu.
 
 Supervisors: Mirza Mohtashim Alam, Ebrahim Norouzi, Genet Asefa Gesese.
 
-RAG and OpenAI’s Function-Calling for Question-Answering with Langchain.py uploaded by Mingze:
- Fixed bug: model result returns error solved. It can directly return the context that we want not the full response of model.
- Encapsulation: user only need one methord: get_answer_LLM(question: str, data: str, chunk_size: int = 1000) -> str 
- Hit: remove all commens to speed up.
+There are three files: RAG_GPT3_5, transfer_PDF_to_str, and main. The main file integrates questions, queries, and a string converted from a PDF by transfer_PDF_to_str, and feeds them into the RAG model based on GPT-3.5, which is implemented in RAG_GPT3_5.
