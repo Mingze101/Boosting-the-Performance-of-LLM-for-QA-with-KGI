@@ -46,7 +46,7 @@ def retrieve_relevant_chunks(query, index, chunks, k=2):#bigger context
 # Then use these chunks with your language model for generating answers.
 
 #使用 QA chain进行信息检索#Using Q&A chain for information retrieval
-def get_answer_LLM(question: str, data: str, chunk_size: int = 1000) -> str:
+def get_answer_LLM(question: str, query:str, data: str, chunk_size: int = 1000) -> str:
     if data == "":
         return ""
     # 创建文本块
@@ -54,7 +54,7 @@ def get_answer_LLM(question: str, data: str, chunk_size: int = 1000) -> str:
     # 创建知识库
     knowledge_hub = create_knowledge_hub(chunks)
     # 检索相关块
-    relevant_chunks = retrieve_relevant_chunks(question, knowledge_hub, chunks, k=2)
+    relevant_chunks = retrieve_relevant_chunks(query, knowledge_hub, chunks, k=2)
     # 将相关块组合成单一上下文
     context = ' '.join(relevant_chunks)
     # 初始化 generated_text
